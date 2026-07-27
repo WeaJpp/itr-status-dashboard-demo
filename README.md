@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 2.6 seconds
-Output:
 # ITR Status Dashboard — Public Demo
 
 A privacy-safe static demonstration of a railway QA/QC Inspection & Test Report (ITR) status dashboard.
