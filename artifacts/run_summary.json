@@ -1,0 +1,21 @@
+{
+  "status": "completed_with_errors",
+  "source_rows": 16,
+  "validated_rows": 15,
+  "scanned": 11,
+  "skipped": 4,
+  "unchanged": 5,
+  "changes": 6,
+  "unresolved": 1,
+  "scope_complete": false,
+  "confirmed_still_ur": 3,
+  "status_counts": {
+    "CODE-1": 2,
+    "CODE-2": 2,
+    "CODE-4": 1,
+    "CODE-5": 1,
+    "READY": 3,
+    "REJECTED": 1,
+    "UR": 4
+  }
+}

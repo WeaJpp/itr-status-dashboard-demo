@@ -1,0 +1,56 @@
+[
+  {
+    "task_id": "T-002",
+    "itr_id": "DEMO-GQC-IR-00002",
+    "current_status": "CODE-2",
+    "observed_status": "CODE-1",
+    "target_revision": "REV-01",
+    "identity_after_write": "DEMO-GQC-IR-00002-01",
+    "reason": "validated portal status differs from ledger cache"
+  },
+  {
+    "task_id": "T-003",
+    "itr_id": "DEMO-GQC-IR-00003",
+    "current_status": "UR",
+    "observed_status": "READY",
+    "target_revision": "REV-00",
+    "identity_after_write": "DEMO-GQC-IR-00003-00",
+    "reason": "validated portal status differs from ledger cache"
+  },
+  {
+    "task_id": "T-008",
+    "itr_id": "DEMO-GQC-IR-00008",
+    "current_status": "DRAFT",
+    "observed_status": "UR",
+    "target_revision": "REV-01",
+    "identity_after_write": "DEMO-GQC-IR-00008-01",
+    "reason": "validated portal status differs from ledger cache"
+  },
+  {
+    "task_id": "T-010",
+    "itr_id": "DEMO-GQC-IR-00010",
+    "current_status": "CODE-3",
+    "observed_status": "CODE-2",
+    "target_revision": "REV-01",
+    "identity_after_write": "DEMO-GQC-IR-00010-01",
+    "reason": "validated portal status differs from ledger cache"
+  },
+  {
+    "task_id": "T-013",
+    "itr_id": "DEMO-GQC-IR-00013",
+    "current_status": "UR",
+    "observed_status": "READY",
+    "target_revision": "REV-00",
+    "identity_after_write": "DEMO-GQC-IR-00013-00",
+    "reason": "validated portal status differs from ledger cache"
+  },
+  {
+    "task_id": "T-015",
+    "itr_id": "DEMO-GQC-IR-00015-20",
+    "current_status": "UR",
+    "observed_status": "READY",
+    "target_revision": "REV-00",
+    "identity_after_write": "DEMO-GQC-IR-00015-20",
+    "reason": "validated portal status differs from ledger cache"
+  }
+]

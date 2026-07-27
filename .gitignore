@@ -2,6 +2,8 @@
 Thumbs.db
 .idea/
 .vscode/
+__pycache__/
+*.py[cod]
 *.log
 .env
 .env.*
@@ -17,4 +19,3 @@ credentials/
 *.csv
 *.sqlite
 *.db
-

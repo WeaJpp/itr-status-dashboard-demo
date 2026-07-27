@@ -1,0 +1,9 @@
+[
+  {
+    "task_id": "T-016",
+    "itr_id": "pending",
+    "code": "INVALID_IDENTITY",
+    "message_en": "literal pending is not a searchable inspection identity; the row was rejected before portal search.",
+    "message_zh": "该编号不符合公开样例的报验编号规则；已在门户查询前拒绝，且未生成写回建议。"
+  }
+]

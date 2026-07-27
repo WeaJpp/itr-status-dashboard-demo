@@ -1,8 +1,13 @@
-# Security Policy
+# Security
 
-This project is a frontend-only demonstration and intentionally has no authentication or live data connection.
+This public repository is an offline demonstration. It contains synthetic records and keeps writeback disabled.
 
-Please do not submit real credentials, cookies, API tokens, service-account files, customer data, project identifiers, or production ITR records in issues or pull requests.
+Do not report real credentials or project data in a public issue. If you discover a vulnerability, contact the maintainer privately through the profile listed in the repository.
 
-If you discover sensitive information in the repository, report it privately to the repository owner rather than opening a public issue.
+Never commit:
 
+- usernames, passwords, cookies, session storage or tokens;
+- private portal URLs, selectors, workbook IDs or production identifiers;
+- real engineering records, attachments or exported browser data.
+
+Production adapters should live in a private deployment and use environment-based secrets, least privilege, explicit scope, backups, audit logs and post-write verification.

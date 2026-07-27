@@ -1,0 +1,511 @@
+{
+  "schema_version": 2,
+  "generated_at": "2026-07-27T05:51:26.571195+00:00",
+  "project": {
+    "name": "ITR Status Dashboard Demo",
+    "name_zh": "ITR 状态查询仪表盘样例",
+    "description": "A privacy-safe daily inspection status workflow.",
+    "description_zh": "一个隐私安全的日常工程报验状态查询流程。"
+  },
+  "summary": {
+    "status": "completed_with_errors",
+    "source_rows": 16,
+    "validated_rows": 15,
+    "scanned": 11,
+    "skipped": 4,
+    "unchanged": 5,
+    "changes": 6,
+    "unresolved": 1,
+    "scope_complete": false,
+    "confirmed_still_ur": 3,
+    "status_counts": {
+      "CODE-1": 2,
+      "CODE-2": 2,
+      "CODE-4": 1,
+      "CODE-5": 1,
+      "READY": 3,
+      "REJECTED": 1,
+      "UR": 4
+    }
+  },
+  "phases": [
+    {
+      "key": "preflight",
+      "status": "ok",
+      "detail_en": "Configuration, source, and crawler adapter are readable.",
+      "detail_zh": "配置、源台账和爬虫适配器均可读取。"
+    },
+    {
+      "key": "source",
+      "status": "ok",
+      "detail_en": "Loaded 16 rows from the authoritative sample ledger.",
+      "detail_zh": "已从权威样例台账读取 16 行。"
+    },
+    {
+      "key": "identity",
+      "status": "warn",
+      "detail_en": "Validated 15 unique searchable identities.",
+      "detail_zh": "已验证 15 个唯一且可查询的报验编号。"
+    },
+    {
+      "key": "crawl",
+      "status": "warn",
+      "detail_en": "Queried 11 rows sequentially; skipped 4 approved terminal rows.",
+      "detail_zh": "已顺序查询 11 行；按规则跳过 4 行终态记录。"
+    },
+    {
+      "key": "rules",
+      "status": "warn",
+      "detail_en": "Produced 6 guarded writeback proposals.",
+      "detail_zh": "已生成 6 条受保护的写回建议。"
+    },
+    {
+      "key": "writeback",
+      "status": "disabled",
+      "detail_en": "Public demo writeback is disabled; proposals were saved as an artifact only.",
+      "detail_zh": "公开样例已禁用写回；建议仅保存为产物。"
+    },
+    {
+      "key": "publish",
+      "status": "ok",
+      "detail_en": "Generated the dashboard JSON and run artifacts.",
+      "detail_zh": "已生成仪表盘 JSON 和运行产物。"
+    }
+  ],
+  "records": [
+    {
+      "task_id": "T-001",
+      "site": "North Section",
+      "site_zh": "北区",
+      "process": "Bottom ballast",
+      "process_zh": "底砟摊铺",
+      "itr_id": "DEMO-GQC-IR-00001",
+      "status": "UR",
+      "track": "Right Track",
+      "chainage": "K12+100 – K12+420",
+      "submitted_date": "2026-07-20",
+      "revision_history": {
+        "REV-00": "UR",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "UR",
+      "observed_status": "UR",
+      "display_status": "UR",
+      "query_state": "resolved",
+      "updated_at": "2026-07-27T05:10:00Z"
+    },
+    {
+      "task_id": "T-002",
+      "site": "North Section",
+      "site_zh": "北区",
+      "process": "Track laying",
+      "process_zh": "铺轨",
+      "itr_id": "DEMO-GQC-IR-00002",
+      "status": "CODE-2",
+      "track": "Left Track",
+      "chainage": "K12+420 – K12+760",
+      "submitted_date": "2026-07-20",
+      "revision_history": {
+        "REV-00": "CODE-2",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "CODE-2",
+      "observed_status": "CODE-1",
+      "display_status": "CODE-1",
+      "query_state": "resolved",
+      "updated_at": "2026-07-27T05:12:00Z"
+    },
+    {
+      "task_id": "T-003",
+      "site": "South Section",
+      "site_zh": "南区",
+      "process": "First tamping",
+      "process_zh": "初次捣固",
+      "itr_id": "DEMO-GQC-IR-00003",
+      "status": "UR",
+      "track": "Right Track",
+      "chainage": "K21+000 – K21+310",
+      "submitted_date": "2026-07-21",
+      "revision_history": {
+        "REV-00": "UR",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "UR",
+      "observed_status": "READY",
+      "display_status": "READY",
+      "query_state": "resolved",
+      "updated_at": "2026-07-27T05:13:00Z"
+    },
+    {
+      "task_id": "T-004",
+      "site": "Depot",
+      "site_zh": "车辆段",
+      "process": "Aluminothermic welding",
+      "process_zh": "铝热焊",
+      "itr_id": "DEMO-GQC-IR-00004",
+      "status": "CODE-1",
+      "track": "Siding 1",
+      "chainage": "W-014",
+      "submitted_date": "2026-07-18",
+      "revision_history": {
+        "REV-00": "CODE-1",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "CODE-1",
+      "observed_status": "",
+      "display_status": "CODE-1",
+      "query_state": "skipped_by_policy",
+      "updated_at": "2026-07-18"
+    },
+    {
+      "task_id": "T-005",
+      "site": "South Section",
+      "site_zh": "南区",
+      "process": "Destressing",
+      "process_zh": "放散",
+      "itr_id": "DEMO-GQC-IR-00005",
+      "status": "CODE-2",
+      "track": "Left Track",
+      "chainage": "K21+310 – K21+680",
+      "submitted_date": "2026-07-22",
+      "revision_history": {
+        "REV-00": "CODE-2",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "CODE-2",
+      "observed_status": "CODE-2",
+      "display_status": "CODE-2",
+      "query_state": "resolved",
+      "updated_at": "2026-07-27T05:14:00Z"
+    },
+    {
+      "task_id": "T-006",
+      "site": "North Section",
+      "site_zh": "北区",
+      "process": "Flash-butt welding",
+      "process_zh": "闪光焊",
+      "itr_id": "DEMO-GQC-IR-00006",
+      "status": "UR",
+      "track": "Right Track",
+      "chainage": "W-021",
+      "submitted_date": "2026-07-22",
+      "revision_history": {
+        "REV-00": "UR",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "UR",
+      "observed_status": "UR",
+      "display_status": "UR",
+      "query_state": "resolved",
+      "updated_at": "2026-07-27T05:15:00Z"
+    },
+    {
+      "task_id": "T-007",
+      "site": "Depot",
+      "site_zh": "车辆段",
+      "process": "Turnout installation",
+      "process_zh": "道岔安装",
+      "itr_id": "DEMO-GQC-IR-00007",
+      "status": "CODE-5",
+      "track": "Turnout 101",
+      "chainage": "K0+880",
+      "submitted_date": "2026-07-17",
+      "revision_history": {
+        "REV-00": "CODE-5",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "CODE-5",
+      "observed_status": "",
+      "display_status": "CODE-5",
+      "query_state": "skipped_by_policy",
+      "updated_at": "2026-07-17"
+    },
+    {
+      "task_id": "T-008",
+      "site": "South Section",
+      "site_zh": "南区",
+      "process": "Ultrasonic testing",
+      "process_zh": "超声波探伤",
+      "itr_id": "DEMO-GQC-IR-00008",
+      "status": "DRAFT",
+      "track": "Right Track",
+      "chainage": "W-028",
+      "submitted_date": "2026-07-23",
+      "revision_history": {
+        "REV-00": "DRAFT",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "DRAFT",
+      "observed_status": "UR",
+      "display_status": "UR",
+      "query_state": "resolved",
+      "updated_at": "2026-07-27T05:16:00Z"
+    },
+    {
+      "task_id": "T-009",
+      "site": "North Section",
+      "site_zh": "北区",
+      "process": "Track geometry",
+      "process_zh": "轨道几何",
+      "itr_id": "DEMO-GQC-IR-00009",
+      "status": "N/A",
+      "track": "Both Tracks",
+      "chainage": "K13+000 – K13+400",
+      "submitted_date": "2026-07-19",
+      "revision_history": {
+        "REV-00": "N/A",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "N/A",
+      "observed_status": "",
+      "display_status": "N/A",
+      "query_state": "skipped_by_policy",
+      "updated_at": "2026-07-19"
+    },
+    {
+      "task_id": "T-010",
+      "site": "South Section",
+      "site_zh": "南区",
+      "process": "Bottom ballast",
+      "process_zh": "底砟摊铺",
+      "itr_id": "DEMO-GQC-IR-00010",
+      "status": "CODE-3",
+      "track": "Left Track",
+      "chainage": "K22+000 – K22+350",
+      "submitted_date": "2026-07-23",
+      "revision_history": {
+        "REV-00": "CODE-3",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "CODE-3",
+      "observed_status": "CODE-2",
+      "display_status": "CODE-2",
+      "query_state": "resolved",
+      "updated_at": "2026-07-27T05:17:00Z"
+    },
+    {
+      "task_id": "T-011",
+      "site": "Depot",
+      "site_zh": "车辆段",
+      "process": "Datum plate survey",
+      "process_zh": "限界牌测量",
+      "itr_id": "DEMO-GQC-IR-00011",
+      "status": "NO",
+      "track": "Reception Line",
+      "chainage": "DP-006",
+      "submitted_date": "2026-07-19",
+      "revision_history": {
+        "REV-00": "NO",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "NO",
+      "observed_status": "",
+      "display_status": "NO",
+      "query_state": "skipped_by_policy",
+      "updated_at": "2026-07-19"
+    },
+    {
+      "task_id": "T-012",
+      "site": "North Section",
+      "site_zh": "北区",
+      "process": "Track laying",
+      "process_zh": "铺轨",
+      "itr_id": "DEMO-GQC-IR-00012",
+      "status": "CODE-4",
+      "track": "Right Track",
+      "chainage": "K13+400 – K13+700",
+      "submitted_date": "2026-07-24",
+      "revision_history": {
+        "REV-00": "CODE-2",
+        "REV-01": "CODE-4",
+        "REV-02": ""
+      },
+      "current_status": "CODE-4",
+      "observed_status": "CODE-4",
+      "display_status": "CODE-4",
+      "query_state": "resolved",
+      "updated_at": "2026-07-27T05:18:00Z"
+    },
+    {
+      "task_id": "T-013",
+      "site": "South Section",
+      "site_zh": "南区",
+      "process": "Final tamping",
+      "process_zh": "最终捣固",
+      "itr_id": "DEMO-GQC-IR-00013",
+      "status": "UR",
+      "track": "Left Track",
+      "chainage": "K22+350 – K22+700",
+      "submitted_date": "2026-07-24",
+      "revision_history": {
+        "REV-00": "UR",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "UR",
+      "observed_status": "READY",
+      "display_status": "READY",
+      "query_state": "resolved",
+      "updated_at": "2026-07-27T05:19:00Z"
+    },
+    {
+      "task_id": "T-014",
+      "site": "Depot",
+      "site_zh": "车辆段",
+      "process": "Visual weld inspection",
+      "process_zh": "焊缝外观检查",
+      "itr_id": "DEMO-GQC-IR-00014",
+      "status": "REJECTED",
+      "track": "Siding 2",
+      "chainage": "W-033",
+      "submitted_date": "2026-07-24",
+      "revision_history": {
+        "REV-00": "REJECTED",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "REJECTED",
+      "observed_status": "REJECTED",
+      "display_status": "REJECTED",
+      "query_state": "resolved",
+      "updated_at": "2026-07-27T05:20:00Z"
+    },
+    {
+      "task_id": "T-015",
+      "site": "North Section",
+      "site_zh": "北区",
+      "process": "Special identity case",
+      "process_zh": "特殊编号规则",
+      "itr_id": "DEMO-GQC-IR-00015-20",
+      "status": "UR",
+      "track": "Right Track",
+      "chainage": "K13+700",
+      "submitted_date": "2026-07-25",
+      "revision_history": {
+        "REV-00": "UR",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "UR",
+      "observed_status": "READY",
+      "display_status": "READY",
+      "query_state": "resolved",
+      "updated_at": "2026-07-27T05:21:00Z"
+    },
+    {
+      "task_id": "T-016",
+      "site": "South Section",
+      "site_zh": "南区",
+      "process": "Identity validation demo",
+      "process_zh": "编号校验样例",
+      "itr_id": "pending",
+      "status": "UR",
+      "track": "Left Track",
+      "chainage": "K22+700",
+      "submitted_date": "2026-07-25",
+      "revision_history": {
+        "REV-00": "UR",
+        "REV-01": "",
+        "REV-02": ""
+      },
+      "current_status": "UR",
+      "observed_status": "",
+      "display_status": "UR",
+      "query_state": "rejected_before_query",
+      "updated_at": "2026-07-25"
+    }
+  ],
+  "changes": [
+    {
+      "task_id": "T-002",
+      "itr_id": "DEMO-GQC-IR-00002",
+      "current_status": "CODE-2",
+      "observed_status": "CODE-1",
+      "target_revision": "REV-01",
+      "identity_after_write": "DEMO-GQC-IR-00002-01",
+      "reason": "validated portal status differs from ledger cache"
+    },
+    {
+      "task_id": "T-003",
+      "itr_id": "DEMO-GQC-IR-00003",
+      "current_status": "UR",
+      "observed_status": "READY",
+      "target_revision": "REV-00",
+      "identity_after_write": "DEMO-GQC-IR-00003-00",
+      "reason": "validated portal status differs from ledger cache"
+    },
+    {
+      "task_id": "T-008",
+      "itr_id": "DEMO-GQC-IR-00008",
+      "current_status": "DRAFT",
+      "observed_status": "UR",
+      "target_revision": "REV-01",
+      "identity_after_write": "DEMO-GQC-IR-00008-01",
+      "reason": "validated portal status differs from ledger cache"
+    },
+    {
+      "task_id": "T-010",
+      "itr_id": "DEMO-GQC-IR-00010",
+      "current_status": "CODE-3",
+      "observed_status": "CODE-2",
+      "target_revision": "REV-01",
+      "identity_after_write": "DEMO-GQC-IR-00010-01",
+      "reason": "validated portal status differs from ledger cache"
+    },
+    {
+      "task_id": "T-013",
+      "itr_id": "DEMO-GQC-IR-00013",
+      "current_status": "UR",
+      "observed_status": "READY",
+      "target_revision": "REV-00",
+      "identity_after_write": "DEMO-GQC-IR-00013-00",
+      "reason": "validated portal status differs from ledger cache"
+    },
+    {
+      "task_id": "T-015",
+      "itr_id": "DEMO-GQC-IR-00015-20",
+      "current_status": "UR",
+      "observed_status": "READY",
+      "target_revision": "REV-00",
+      "identity_after_write": "DEMO-GQC-IR-00015-20",
+      "reason": "validated portal status differs from ledger cache"
+    }
+  ],
+  "errors": [
+    {
+      "task_id": "T-016",
+      "itr_id": "pending",
+      "code": "INVALID_IDENTITY",
+      "message_en": "literal pending is not a searchable inspection identity; the row was rejected before portal search.",
+      "message_zh": "该编号不符合公开样例的报验编号规则；已在门户查询前拒绝，且未生成写回建议。"
+    }
+  ],
+  "safety": {
+    "writeback_enabled": false,
+    "credentials_in_repository": false,
+    "portal_queries": [
+      "T-001",
+      "T-002",
+      "T-003",
+      "T-005",
+      "T-006",
+      "T-008",
+      "T-010",
+      "T-012",
+      "T-013",
+      "T-014",
+      "T-015"
+    ]
+  }
+}

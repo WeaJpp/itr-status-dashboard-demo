@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Privacy-safe ITR status crawler and dashboard demo">
+  <title>ITR Status Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">IR</span><span data-i18n="brand">ITR Status Pipeline</span></a>
+    <div class="actions">
+      <a class="ghost" href="https://github.com/WeaJpp/itr-status-dashboard-demo" data-i18n="source">Source</a>
+      <button id="theme" class="icon" aria-label="Theme">◐</button>
+      <button id="language" class="language">中文</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="pulse"></span><span data-i18n="eyebrow">OPEN-SOURCE WORKFLOW DEMO</span></div>
+        <h1 data-i18n="title">Inspection status, from ledger to evidence.</h1>
+        <p data-i18n="subtitle">A runnable daily workflow for engineering inspection requests—and any website that needs routine status checks.</p>
+      </div>
+      <aside class="run-card">
+        <div class="run-head"><span data-i18n="lastRun">Latest pipeline run</span><span id="runStatus" class="run-status">—</span></div>
+        <div id="runTime" class="run-time">—</div>
+        <p data-i18n="privacy">Synthetic data only. No credentials, private URLs, cookies, or production identifiers.</p>
+      </aside>
+    </section>
+
+    <section id="metrics" class="metrics" aria-label="Metrics"></section>
+
+    <section class="grid">
+      <article class="panel span-8">
+        <div class="section-head">
+          <div><span class="kicker">01</span><h2 data-i18n="pipeline">Daily query pipeline</h2></div>
+          <span class="safe" data-i18n="writebackOff">Writeback disabled</span>
+        </div>
+        <div id="pipeline" class="pipeline"></div>
+      </article>
+      <article class="panel span-4">
+        <div class="section-head"><div><span class="kicker">02</span><h2 data-i18n="distribution">Status distribution</h2></div></div>
+        <div id="distribution"></div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div><span class="kicker">03</span><h2 data-i18n="changes">Guarded change proposals</h2></div>
+        <span id="changeCount" class="count"></span>
+      </div>
+      <div class="table-wrap"><table><thead id="changeHead"></thead><tbody id="changeBody"></tbody></table></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div><span class="kicker">04</span><h2 data-i18n="records">Inspection register</h2></div>
+        <button id="export" class="ghost" data-i18n="export">Export CSV</button>
+      </div>
+      <div class="filters">
+        <input id="search" type="search" data-i18n-placeholder="search" placeholder="Search">
+        <select id="statusFilter"></select>
+      </div>
+      <div class="table-wrap"><table><thead id="recordHead"></thead><tbody id="recordBody"></tbody></table></div>
+      <div id="empty" class="empty" hidden data-i18n="empty">No matching records.</div>
+    </section>
+
+    <section class="panel error-panel">
+      <div class="section-head"><div><span class="kicker">05</span><h2 data-i18n="exceptions">Fail-closed exceptions</h2></div></div>
+      <div id="errors"></div>
+    </section>
+  </main>
+
+  <footer><span data-i18n="footer">Built for engineering inspection requests; adaptable to other daily website checks.</span><span>MIT · WeaJpp &amp; OpenAI Codex</span></footer>
+  <script src="app.js"></script>
+</body>
+</html>
