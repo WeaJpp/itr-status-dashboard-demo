@@ -147,7 +147,7 @@ You can replace values, add records, or load sanitized data from JSON or an API.
 | 贡献者 / Contributor | 贡献 / Contribution |
 |---|---|
 | **[WeaJpp](https://github.com/WeaJpp)** | 项目发起、工程工作流定义与维护 / Project owner, engineering workflow definition, and maintenance |
-| **OpenAI Codex** | 界面设计、前端实现、隐私脱敏审计与中英文文档 / UI design, frontend implementation, privacy sanitization audit, and bilingual documentation |
+| **[OpenAI Codex](https://github.com/codex)** | 界面设计、前端实现、隐私脱敏审计与中英文文档 / UI design, frontend implementation, privacy sanitization audit, and bilingual documentation |
 
 ## 🤝 参与贡献 / Contributing
 
