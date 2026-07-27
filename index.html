@@ -1,0 +1,113 @@
+Exit code: 0
+Wall time: 2.6 seconds
+Output:
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A privacy-safe, static demonstration dashboard for railway ITR status reporting.">
+  <title>ITR Status Dashboard · Public Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#">
+      <span class="brand-mark" aria-hidden="true">IR</span>
+      <span>ITR Status <strong>Demo</strong></span>
+    </a>
+    <div class="top-actions">
+      <span class="demo-badge">PUBLIC SAMPLE DATA</span>
+      <button class="icon-button" id="themeToggle" type="button" aria-label="切换主题">◐</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Railway QA/QC · Inspection & Test Reports</p>
+        <h1>ITR 状态仪表盘</h1>
+        <p class="hero-copy">用于演示 ITR 状态汇总、筛选和查询的纯静态网页。所有名称、编号、数量及里程均为虚构数据。</p>
+      </div>
+      <div class="hero-meta">
+        <span>示例日期</span>
+        <strong>2026-01-15</strong>
+        <small>不连接 Google Sheets、RDrive 或任何真实系统</small>
+      </div>
+    </section>
+
+    <section class="notice" aria-label="隐私说明">
+      <span aria-hidden="true">✓</span>
+      <p><strong>隐私安全样例：</strong>仓库不包含密码、Cookie、API Key、账号、真实 IR/ITR 编号、项目名称、内部链接或客户数据。</p>
+    </section>
+
+    <section class="kpis" id="kpis" aria-label="状态汇总"></section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="section-kicker">Status distribution</p>
+          <h2>站点状态分布</h2>
+        </div>
+        <span class="muted" id="visibleCount"></span>
+      </div>
+      <div class="site-grid" id="siteGrid"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head filters-head">
+        <div>
+          <p class="section-kicker">Inspection register</p>
+          <h2>ITR 查询</h2>
+        </div>
+        <button class="export-button" id="exportCsv" type="button">导出当前结果 CSV</button>
+      </div>
+
+      <div class="filters">
+        <label class="search">
+          <span class="sr-only">搜索</span>
+          <input id="searchInput" type="search" placeholder="搜索示例 IR、工序、站点或里程…">
+        </label>
+        <label>
+          <span class="sr-only">站点</span>
+          <select id="siteFilter">
+            <option value="">全部站点</option>
+          </select>
+        </label>
+        <label>
+          <span class="sr-only">状态</span>
+          <select id="statusFilter">
+            <option value="">全部状态</option>
+          </select>
+        </label>
+        <button class="reset-button" id="resetFilters" type="button">重置</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>站点</th>
+              <th>工序</th>
+              <th>示例 IR</th>
+              <th>状态</th>
+              <th>线别</th>
+              <th>里程</th>
+              <th>更新日期</th>
+            </tr>
+          </thead>
+          <tbody id="itrRows"></tbody>
+        </table>
+        <div class="empty" id="emptyState" hidden>没有符合筛选条件的记录。</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Open-source demonstration · Synthetic data only · No live integrations</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
