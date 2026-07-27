@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 2.7 seconds
-Output:
 # Security Policy
 
 This project is a frontend-only demonstration and intentionally has no authentication or live data connection.
