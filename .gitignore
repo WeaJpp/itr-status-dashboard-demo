@@ -1,0 +1,23 @@
+Exit code: 0
+Wall time: 2.6 seconds
+Output:
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+.env
+.env.*
+!.env.example
+secrets/
+credentials/
+*.pem
+*.key
+*.p12
+*.pfx
+*.xlsx
+*.xls
+*.csv
+*.sqlite
+*.db
+
