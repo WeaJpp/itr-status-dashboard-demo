@@ -6,12 +6,12 @@
 
 **Turn an inspection ledger into verified website status evidence and a daily dashboard.**
 
-[![Build](https://github.com/WeaJpp/itr-status-dashboard-demo/actions/workflows/pages.yml/badge.svg)](https://github.com/WeaJpp/itr-status-dashboard-demo/actions/workflows/pages.yml)
-[![Live](https://img.shields.io/website?url=https%3A%2F%2Fweajpp.github.io%2Fitr-status-dashboard-demo%2F&label=live%20demo)](https://weajpp.github.io/itr-status-dashboard-demo/?lang=en)
+[![Build](https://github.com/WeaJpp/ITR-status/actions/workflows/pages.yml/badge.svg)](https://github.com/WeaJpp/ITR-status/actions/workflows/pages.yml)
+[![Live](https://img.shields.io/website?url=https%3A%2F%2Fweajpp.github.io%2FITR-status%2F&label=live%20demo)](https://weajpp.github.io/ITR-status/?lang=en)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](#run-locally)
-[![License](https://img.shields.io/github/license/WeaJpp/itr-status-dashboard-demo)](LICENSE)
+[![License](https://img.shields.io/github/license/WeaJpp/ITR-status)](LICENSE)
 
-[Live demo](https://weajpp.github.io/itr-status-dashboard-demo/?lang=en) ·
+[Live demo](https://weajpp.github.io/ITR-status/?lang=en) ·
 [Adaptation guide](docs/adaptation-guide.md) ·
 [Architecture](docs/architecture.md) ·
 [简体中文](README.md)
@@ -19,7 +19,7 @@
 </div>
 
 <p align="center">
-  <a href="https://weajpp.github.io/itr-status-dashboard-demo/?lang=en">
+  <a href="https://weajpp.github.io/ITR-status/?lang=en">
     <img src="docs/assets/dashboard-preview.png" alt="ITR-status dashboard preview" width="100%">
   </a>
 </p>
@@ -70,8 +70,8 @@ flowchart LR
 The pipeline uses only the Python standard library.
 
 ```bash
-git clone https://github.com/WeaJpp/itr-status-dashboard-demo.git
-cd itr-status-dashboard-demo
+git clone https://github.com/WeaJpp/ITR-status.git
+cd ITR-status
 
 python -m unittest discover -s tests -v
 python scripts/run_pipeline.py --config config.example.json

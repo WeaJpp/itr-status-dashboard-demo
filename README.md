@@ -6,12 +6,12 @@
 
 **从工程台账出发，自动查询网站状态，生成可追溯的日报与仪表盘。**
 
-[![构建状态](https://github.com/WeaJpp/itr-status-dashboard-demo/actions/workflows/pages.yml/badge.svg)](https://github.com/WeaJpp/itr-status-dashboard-demo/actions/workflows/pages.yml)
-[![在线状态](https://img.shields.io/website?url=https%3A%2F%2Fweajpp.github.io%2Fitr-status-dashboard-demo%2F&label=在线演示)](https://weajpp.github.io/itr-status-dashboard-demo/?lang=zh)
+[![构建状态](https://github.com/WeaJpp/ITR-status/actions/workflows/pages.yml/badge.svg)](https://github.com/WeaJpp/ITR-status/actions/workflows/pages.yml)
+[![在线状态](https://img.shields.io/website?url=https%3A%2F%2Fweajpp.github.io%2FITR-status%2F&label=在线演示)](https://weajpp.github.io/ITR-status/?lang=zh)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](#本地运行)
-[![License](https://img.shields.io/github/license/WeaJpp/itr-status-dashboard-demo)](LICENSE)
+[![License](https://img.shields.io/github/license/WeaJpp/ITR-status)](LICENSE)
 
-[在线演示](https://weajpp.github.io/itr-status-dashboard-demo/?lang=zh) ·
+[在线演示](https://weajpp.github.io/ITR-status/?lang=zh) ·
 [接入教程](docs/adaptation-guide.zh-CN.md) ·
 [架构说明](docs/architecture.zh-CN.md) ·
 [English](README.en.md)
@@ -19,7 +19,7 @@
 </div>
 
 <p align="center">
-  <a href="https://weajpp.github.io/itr-status-dashboard-demo/?lang=zh">
+  <a href="https://weajpp.github.io/ITR-status/?lang=zh">
     <img src="docs/assets/dashboard-preview.png" alt="报验单检测系统中文仪表盘预览" width="100%">
   </a>
 </p>
@@ -104,8 +104,8 @@ flowchart LR
 流水线只使用 Python 标准库，不需要安装第三方包。
 
 ```bash
-git clone https://github.com/WeaJpp/itr-status-dashboard-demo.git
-cd itr-status-dashboard-demo
+git clone https://github.com/WeaJpp/ITR-status.git
+cd ITR-status
 
 python -m unittest discover -s tests -v
 python scripts/run_pipeline.py --config config.example.json
