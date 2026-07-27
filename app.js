@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 2.6 seconds
-Output:
 const SAMPLE_ITRS = [
   { site: "Demo North", process: "Bottom Ballast", ir: "DEMO-GQC-IR-00001", status: "CODE-1", track: "Left", chainage: "0+000–0+500", updated: "2026-01-15" },
   { site: "Demo North", process: "Track Laying", ir: "DEMO-GQC-IR-00002", status: "CODE-2", track: "Left", chainage: "0+500–1+000", updated: "2026-01-14" },
