@@ -5,9 +5,30 @@
     "description": "A privacy-safe daily inspection status workflow.",
     "description_zh": "一个隐私安全的日常工程报验状态查询流程。"
   },
-  "source": {"adapter": "json-ledger", "path": "sample_data/ledger.json"},
-  "crawler": {"adapter": "fixture", "path": "sample_data/portal_results.json"},
-  "rules": {"skip_current_statuses": ["CODE-1", "CODE-5", "N/A", "NA", "NO", ""]},
-  "writeback": {"enabled": false},
-  "report": {"output": "public/data/dashboard.json", "artifact_dir": "artifacts"}
+  "source": {
+    "adapter": "json-ledger",
+    "path": "sample_data/ledger.json"
+  },
+  "crawler": {
+    "adapter": "fixture",
+    "path": "sample_data/portal_results.json"
+  },
+  "rules": {
+    "skip_current_statuses": [
+      "CODE-1",
+      "CODE-5",
+      "N/A",
+      "NA",
+      "NO",
+      ""
+    ],
+    "identity_pattern": "^(?P<base>DEMO-GQC-IR-\\\\d{5})(?:-(?P<revision>\\\\d{2}))?$"
+  },
+  "writeback": {
+    "enabled": false
+  },
+  "report": {
+    "output": "public/data/dashboard.json",
+    "artifact_dir": "artifacts"
+  }
 }
