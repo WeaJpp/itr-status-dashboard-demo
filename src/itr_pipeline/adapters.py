@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import json
 import os
+import re
 import urllib.parse
 import urllib.request
 from abc import ABC, abstractmethod
@@ -34,11 +35,90 @@ class CsvLedgerAdapter(SourceAdapter):
 
     def load(self) -> list[LedgerRecord]:
         with self.path.open("r", encoding="utf-8-sig", newline="") as handle:
+            return [
+                LedgerRecord.from_dict(_prepare_tabular_row(row, row_number))
+                for row_number, row in enumerate(csv.DictReader(handle), start=2)
+                if any(value not in (None, "") for value in row.values())
+            ]
+
+
+class XlsxLedgerAdapter(SourceAdapter):
+    def __init__(self, path: Path, sheet: str = ""):
+        self.path = path
+        self.sheet = sheet
+
+    def load(self) -> list[LedgerRecord]:
+        try:
+            from openpyxl import load_workbook
+        except ImportError as exc:
+            raise RuntimeError(
+                "Excel import requires openpyxl. Install desktop requirements or use CSV/JSON."
+            ) from exc
+
+        workbook = load_workbook(self.path, read_only=True, data_only=True)
+        try:
+            if self.sheet:
+                if self.sheet not in workbook.sheetnames:
+                    raise ValueError(f"worksheet not found: {self.sheet}")
+                worksheet = workbook[self.sheet]
+            else:
+                worksheet = workbook.active
+            iterator = worksheet.iter_rows(values_only=True)
+            try:
+                headers = [str(value or "").strip() for value in next(iterator)]
+            except StopIteration:
+                return []
             rows = []
-            for row in csv.DictReader(handle):
-                row["revision_history"] = json.loads(row.get("revision_history") or "{}")
-                rows.append(LedgerRecord.from_dict(row))
+            for row_number, values in enumerate(iterator, start=2):
+                if not any(value not in (None, "") for value in values):
+                    continue
+                rows.append(
+                    LedgerRecord.from_dict(
+                        _prepare_tabular_row(dict(zip(headers, values)), row_number)
+                    )
+                )
             return rows
+        finally:
+            workbook.close()
+
+
+def _prepare_tabular_row(raw: dict[str, Any], row_number: int) -> dict[str, Any]:
+    """Normalize portable CSV/XLSX columns without project-specific assumptions."""
+    row = {str(key or "").strip(): value for key, value in raw.items()}
+    lowered = {key.casefold(): key for key in row}
+
+    def copy_alias(target: str, *aliases: str) -> None:
+        if target in row and row[target] not in (None, ""):
+            return
+        for alias in aliases:
+            source = lowered.get(alias.casefold())
+            if source is not None and row[source] not in (None, ""):
+                row[target] = row[source]
+                return
+
+    copy_alias("task_id", "task id", "row id")
+    copy_alias("itr_id", "itr id", "ir", "ir no", "ir number", "inspection request")
+    copy_alias("submitted_date", "submitted date", "submission date", "date")
+    copy_alias("site", "location")
+    copy_alias("process", "activity")
+    copy_alias("chainage", "mileage")
+    row.setdefault("task_id", f"ROW-{row_number:05d}")
+    row.setdefault("site", "Imported")
+    row.setdefault("process", "Inspection")
+
+    history = row.get("revision_history")
+    if isinstance(history, str):
+        history = json.loads(history or "{}")
+    if not isinstance(history, dict):
+        history = {}
+    for key, value in row.items():
+        normalized = str(key).strip().upper().replace("_", "-").replace(" ", "-")
+        if re.fullmatch(r"REV-\d{2}", normalized):
+            history[normalized] = value
+    if not history:
+        history = {"REV-00": row.get("status", ""), "REV-01": ""}
+    row["revision_history"] = history
+    return row
 
 
 class PortalAdapter(ABC):
@@ -71,11 +151,7 @@ class FixturePortalAdapter(PortalAdapter):
 
 
 class HttpJsonPortalAdapter(PortalAdapter):
-    """Optional adapter for a private, sanitized JSON gateway.
-
-    A browser automation adapter can implement the same contract. Keep target
-    URLs, selectors, cookies, credentials and tokens out of this repository.
-    """
+    """Adapter for a private, sanitized JSON gateway."""
 
     def __init__(self, base_url: str, token_env: str = ""):
         self.base_url = base_url
@@ -100,11 +176,14 @@ class HttpJsonPortalAdapter(PortalAdapter):
 
 def build_source_adapter(root: Path, config: dict[str, Any]) -> SourceAdapter:
     path = root / config["path"]
-    if config["adapter"] == "json-ledger":
+    adapter = config["adapter"]
+    if adapter == "json-ledger":
         return JsonLedgerAdapter(path)
-    if config["adapter"] == "csv-ledger":
+    if adapter == "csv-ledger":
         return CsvLedgerAdapter(path)
-    raise ValueError(f"unsupported source adapter: {config['adapter']}")
+    if adapter == "xlsx-ledger":
+        return XlsxLedgerAdapter(path, str(config.get("sheet", "")))
+    raise ValueError(f"unsupported source adapter: {adapter}")
 
 
 def build_portal_adapter(root: Path, config: dict[str, Any]) -> PortalAdapter:
