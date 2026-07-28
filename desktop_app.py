@@ -74,8 +74,8 @@ class DesktopApp:
 
     def _configure_window(self) -> None:
         self.window.title(APP_TITLE)
-        self.window.geometry("1040x760")
-        self.window.minsize(900, 680)
+        self.window.geometry("1080x820")
+        self.window.minsize(940, 740)
         self.window.configure(bg="#0b1220")
 
     def _configure_style(self) -> None:
@@ -134,6 +134,7 @@ class DesktopApp:
         self.portal_label.pack(anchor="w", pady=(3, 5))
         portal_row = ttk.Frame(left, style="Panel.TFrame")
         portal_row.pack(fill=X, pady=(0, 8))
+        self.portal_row = portal_row
         self.portal_entry = ttk.Entry(portal_row, textvariable=self.portal_var)
         self.portal_entry.pack(side=LEFT, fill=X, expand=True)
         self.portal_button = ttk.Button(portal_row, text="选择", style="Secondary.TButton", command=self._choose_portal)
@@ -221,7 +222,7 @@ class DesktopApp:
         if offline:
             self.token_frame.pack_forget()
         else:
-            self.token_frame.pack(fill=X, pady=(0, 8), before=self.portal_label.master.winfo_children()[-5] if False else None)
+            self.token_frame.pack(fill=X, pady=(0, 8), after=self.portal_row)
 
     def _build_config(self, output: Path) -> Path:
         ledger = Path(self.ledger_var.get()).expanduser().resolve()
