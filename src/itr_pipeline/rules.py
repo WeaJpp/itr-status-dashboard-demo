@@ -33,12 +33,21 @@ def normalize_status(value: str) -> str:
     return text
 
 
-def validate_identity(record: LedgerRecord) -> tuple[bool, str]:
+def _identity_regex(pattern: str | None = None) -> re.Pattern[str]:
+    compiled = re.compile(pattern, re.IGNORECASE) if pattern else IDENTITY_RE
+    if "base" not in compiled.groupindex:
+        raise ValueError("identity pattern must contain a named 'base' group")
+    return compiled
+
+
+def validate_identity(
+    record: LedgerRecord, pattern: str | None = None
+) -> tuple[bool, str]:
     value = record.itr_id.strip()
     if value.lower() == "pending":
         return False, "literal pending is not a searchable inspection identity"
-    if not IDENTITY_RE.fullmatch(value):
-        return False, "identity does not match the public DEMO-GQC-IR-xxxxx contract"
+    if not _identity_regex(pattern).fullmatch(value):
+        return False, "identity does not match the configured inspection-number pattern"
     return True, ""
 
 
@@ -100,11 +109,14 @@ def compute_revision_target(record: LedgerRecord, observed_status: str) -> str:
     return headers[next_index]
 
 
-def identity_for_target(record: LedgerRecord, target_revision: str) -> str:
-    match = IDENTITY_RE.fullmatch(record.itr_id)
+def identity_for_target(
+    record: LedgerRecord, target_revision: str, pattern: str | None = None
+) -> str:
+    match = _identity_regex(pattern).fullmatch(record.itr_id)
     if not match:
         raise ValueError("cannot build a revision identity from an invalid ITR ID")
-    if match.group("revision") == "20":
+    revision_match = match.groupdict().get("revision")
+    if revision_match == "20":
         return record.itr_id
     revision = target_revision.removeprefix("REV-")
     return f"{match.group('base')}-{revision}"
