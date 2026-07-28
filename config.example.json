@@ -22,7 +22,7 @@
       "NO",
       ""
     ],
-    "identity_pattern": "^(?P<base>DEMO-GQC-IR-\\\\d{5})(?:-(?P<revision>\\\\d{2}))?$"
+    "identity_pattern": "^(?P<base>DEMO-GQC-IR-\\d{5})(?:-(?P<revision>\\d{2}))?$"
   },
   "writeback": {
     "enabled": false
