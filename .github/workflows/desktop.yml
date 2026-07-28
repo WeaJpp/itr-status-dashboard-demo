@@ -1,0 +1,42 @@
+name: Build Windows desktop app
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - "desktop_app.py"
+      - "src/**"
+      - "public/**"
+      - "sample_data/**"
+      - "tests/**"
+      - "requirements-desktop.txt"
+      - "build_desktop.ps1"
+      - ".github/workflows/desktop.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  windows-exe:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-desktop.txt
+      - name: Install desktop dependencies
+        run: python -m pip install -r requirements-desktop.txt
+      - name: Build tested EXE
+        shell: powershell
+        run: .\build_desktop.ps1 -Python python -SkipInstall
+      - name: Upload Windows EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: ITR-status-Desktop-Windows-x64
+          path: dist/ITR-status-Desktop.exe
+          if-no-files-found: error
