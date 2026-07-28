@@ -65,6 +65,12 @@ flowchart LR
 | Use DevTools Network → Fetch/XHR to identify query, pagination, and authorized download APIs. Fall back to stable Playwright HTML selectors only when necessary. | Copy the prompt from the live page and give it to a browser-and-code capable AI. It instructs the AI to remain read-only, keep secrets external, verify exact identity, and add fixtures plus tests. |
 | [Read method A →](docs/adaptation-guide.md#method-a-inspect-the-api-or-html-yourself) | [Read method B →](docs/adaptation-guide.md#method-b-use-the-ai-prompt) |
 
+## Windows desktop app
+
+For a no-command-line workflow, download the Windows artifact from [Build Windows desktop app](https://github.com/WeaJpp/ITR-status/actions/workflows/desktop.yml). The EXE imports JSON, CSV, or XLSX ledgers, runs the read-only pipeline, and opens the generated dashboard locally. It always keeps `writeback.enabled=false`.
+
+Build it from source with `.\build_desktop.ps1`. See the [Chinese desktop guide](docs/desktop.zh-CN.md) for the current UI walkthrough.
+
 ## Run locally
 
 The pipeline uses only the Python standard library.
