@@ -50,10 +50,7 @@ class RowError:
     message_zh: str
 
     def as_dict(self) -> dict[str, str]:
-        result = asdict(self)
-        if self.code == "INVALID_IDENTITY":
-            result["message_zh"] = "该编号不符合公开样例的报验编号规则；已在门户查询前拒绝，且未生成写回建议。"
-        return result
+        return asdict(self)
 
 
 @dataclass(slots=True)
