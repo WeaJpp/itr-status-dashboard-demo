@@ -4,7 +4,7 @@ import json
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from .adapters import build_portal_adapter, build_source_adapter
 from .models import ChangeProposal, LedgerRecord, RowError
@@ -21,7 +21,12 @@ from .rules import (
 
 
 class Pipeline:
-    def __init__(self, root: Path, config_path: Path):
+    def __init__(
+        self,
+        root: Path,
+        config_path: Path,
+        observer: Callable[[dict[str, Any]], None] | None = None,
+    ):
         self.root = root
         self.config_path = config_path
         self.config = json.loads(config_path.read_text(encoding="utf-8"))
@@ -29,11 +34,17 @@ class Pipeline:
         self.errors: list[RowError] = []
         self.proposals: list[ChangeProposal] = []
         self.portal_queries: list[str] = []
+        self.observer = observer
+
+    def _emit(self, kind: str, **payload: Any) -> None:
+        if self.observer:
+            self.observer({"kind": kind, **payload})
 
     def _phase(self, key: str, status: str, detail_en: str, detail_zh: str) -> None:
         self.phases.append(
             {"key": key, "status": status, "detail_en": detail_en, "detail_zh": detail_zh}
         )
+        self._emit("phase", key=key, status=status, message=detail_zh)
 
     def _error(
         self,
@@ -51,6 +62,7 @@ class Pipeline:
                 message_zh=message_zh,
             )
         )
+        self._emit("error", task_id=record.task_id, itr_id=record.itr_id, message=message_zh)
 
     def _preflight(self) -> tuple[Any, Any]:
         required = {"project", "source", "crawler", "rules", "report", "writeback"}
@@ -63,10 +75,9 @@ class Pipeline:
         portal = build_portal_adapter(self.root, self.config["crawler"])
         portal.preflight()
         self._phase(
-            "preflight",
-            "ok",
+            "preflight", "ok",
             "Configuration, source, and crawler adapter are readable.",
-            "配置、源台账和爬虫适配器均可读取。",
+            "配置、源台账和查询适配器均可读取。",
         )
         return source, portal
 
@@ -74,29 +85,29 @@ class Pipeline:
         source, portal = self._preflight()
         records = source.load()
         self._phase(
-            "source",
-            "ok",
-            f"Loaded {len(records)} rows from the authoritative sample ledger.",
-            f"已从权威样例台账读取 {len(records)} 行。",
+            "source", "ok",
+            f"Loaded {len(records)} rows from the authoritative ledger.",
+            f"已从台账读取 {len(records)} 行。",
         )
 
+        identity_pattern = str(
+            self.config["rules"].get("identity_pattern", "")
+        ).strip() or None
         seen_task_ids: set[str] = set()
         validated: list[LedgerRecord] = []
         for record in records:
             if record.task_id in seen_task_ids:
                 self._error(
-                    record,
-                    "DUPLICATE_TASK_ID",
+                    record, "DUPLICATE_TASK_ID",
                     "Duplicate task_id; the row was not queried or written.",
                     "task_id 重复；该行未查询、未写回。",
                 )
                 continue
             seen_task_ids.add(record.task_id)
-            valid, reason = validate_identity(record)
+            valid, reason = validate_identity(record, identity_pattern)
             if not valid:
                 self._error(
-                    record,
-                    "INVALID_IDENTITY",
+                    record, "INVALID_IDENTITY",
                     f"{reason}; the row was rejected before portal search.",
                     f"{reason}；该行在门户查询前已被拒绝。",
                 )
@@ -104,8 +115,7 @@ class Pipeline:
             validated.append(record)
 
         self._phase(
-            "identity",
-            "warn" if self.errors else "ok",
+            "identity", "warn" if self.errors else "ok",
             f"Validated {len(validated)} unique searchable identities.",
             f"已验证 {len(validated)} 个唯一且可查询的报验编号。",
         )
@@ -130,7 +140,11 @@ class Pipeline:
         rows_by_task = {row["task_id"]: row for row in display_rows}
         valid_task_ids = {record.task_id for record in validated}
 
-        for record in validated:
+        for index, record in enumerate(validated, start=1):
+            self._emit(
+                "progress", current=index, total=len(validated),
+                task_id=record.task_id, itr_id=record.itr_id,
+            )
             row = rows_by_task[record.task_id]
             if not should_scan(record.status, skip_statuses):
                 skipped += 1
@@ -160,7 +174,7 @@ class Pipeline:
                     continue
 
                 target = compute_revision_target(record, observed)
-                identity_after = identity_for_target(record, target)
+                identity_after = identity_for_target(record, target, identity_pattern)
                 self.proposals.append(
                     ChangeProposal(
                         task_id=record.task_id,
@@ -172,11 +186,10 @@ class Pipeline:
                         reason="validated portal status differs from ledger cache",
                     )
                 )
-            except Exception as exc:  # row-level fail-closed boundary
+            except Exception as exc:
                 row["query_state"] = "error"
                 self._error(
-                    record,
-                    "QUERY_OR_RULE_ERROR",
+                    record, "QUERY_OR_RULE_ERROR",
                     f"{exc}; no writeback was proposed.",
                     f"{exc}；未生成写回建议。",
                 )
@@ -186,33 +199,28 @@ class Pipeline:
                 row["query_state"] = "rejected_before_query"
 
         self._phase(
-            "crawl",
-            "warn" if self.errors else "ok",
+            "crawl", "warn" if self.errors else "ok",
             f"Queried {scanned} rows sequentially; skipped {skipped} approved terminal rows.",
             f"已顺序查询 {scanned} 行；按规则跳过 {skipped} 行终态记录。",
         )
         self._phase(
-            "rules",
-            "warn" if self.errors else "ok",
+            "rules", "warn" if self.errors else "ok",
             f"Produced {len(self.proposals)} guarded writeback proposals.",
             f"已生成 {len(self.proposals)} 条受保护的写回建议。",
         )
         self._phase(
-            "writeback",
-            "disabled",
-            "Public demo writeback is disabled; proposals were saved as an artifact only.",
-            "公开样例已禁用写回；建议仅保存为产物。",
+            "writeback", "disabled",
+            "Desktop/public writeback is disabled; proposals were saved as an artifact only.",
+            "桌面公开版已禁用写回；建议仅保存为产物。",
         )
 
         scope_complete = not self.errors
         confirmed_ur = sum(
-            1
-            for row in display_rows
+            1 for row in display_rows
             if row["query_state"] == "resolved" and row["display_status"] == "UR"
         )
         counts = Counter(
-            row["display_status"]
-            for row in display_rows
+            row["display_status"] for row in display_rows
             if row["display_status"] not in {"", "NO", "N/A"}
         )
         result = {
@@ -244,13 +252,13 @@ class Pipeline:
         }
         self._write_outputs(result)
         self._phase(
-            "publish",
-            "ok",
+            "publish", "ok",
             "Generated the dashboard JSON and run artifacts.",
             "已生成仪表盘 JSON 和运行产物。",
         )
         result["phases"] = self.phases
         self._write_outputs(result)
+        self._emit("complete", summary=result["summary"])
         return result
 
     def _write_outputs(self, result: dict[str, Any]) -> None:
@@ -259,8 +267,7 @@ class Pipeline:
         report_path.parent.mkdir(parents=True, exist_ok=True)
         artifact_dir.mkdir(parents=True, exist_ok=True)
         report_path.write_text(
-            json.dumps(result, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
+            json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
         )
         (artifact_dir / "run_summary.json").write_text(
             json.dumps(result["summary"], ensure_ascii=False, indent=2) + "\n",
