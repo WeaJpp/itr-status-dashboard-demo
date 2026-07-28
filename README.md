@@ -99,6 +99,23 @@ flowchart LR
 </tr>
 </table>
 
+## Windows 桌面版（推荐）
+
+不想安装 Python 或使用命令行，可以直接使用 Windows EXE 工作台：选择 JSON / CSV / XLSX 台账，选择离线结果或私有 JSON 网关，点击运行后查看进度、错误、变更建议和本地仪表盘。
+
+- 在 [Actions → Build Windows desktop app](https://github.com/WeaJpp/ITR-status/actions/workflows/desktop.yml) 下载最新构建产物。
+- 程序默认只读，强制 `writeback.enabled=false`，不会修改源台账。
+- 编号规则可配置，但网站返回编号仍必须与请求完全一致。
+- 完整说明：[Windows 桌面版使用说明](docs/desktop.zh-CN.md)。
+
+从源码一键构建：
+
+```powershell
+.\build_desktop.ps1
+```
+
+生成 `dist\ITR-status-Desktop.exe`。
+
 ## 本地运行
 
 流水线只使用 Python 标准库，不需要安装第三方包。
