@@ -19,3 +19,6 @@ credentials/
 *.csv
 *.sqlite
 *.db
+build/
+dist/
+*.spec
